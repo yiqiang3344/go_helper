@@ -4,13 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
-	"time"
 )
-
-var LogBasePath = "."
 
 func PathExists(path string) (bool, error) {
 	_, err := os.Stat(path)
@@ -42,15 +38,4 @@ func Request(method string, url string, data []byte, header http.Header, statusC
 
 	body, _ := ioutil.ReadAll(resp.Body)
 	return string(body), nil
-}
-
-func WriteLog(message string, tag string) {
-	file := LogBasePath + "/" + time.Now().String()[0:10] + ".log"
-	logFile, err := os.OpenFile(file, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0766)
-	if nil != err {
-		panic(err)
-	}
-	loger := log.New(logFile, "", log.Ldate|log.Ltime|log.Lshortfile)
-	loger.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
-	loger.Println(tag + " | " + message)
 }
