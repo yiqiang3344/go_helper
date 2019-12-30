@@ -10,6 +10,8 @@ import (
 	"time"
 )
 
+var LogBasePath = "."
+
 func PathExists(path string) (bool, error) {
 	_, err := os.Stat(path)
 	if err == nil {
@@ -43,7 +45,7 @@ func Request(method string, url string, data []byte, header http.Header, statusC
 }
 
 func WriteLog(message string, tag string) {
-	file := "./" + time.Now().String()[0:10] + ".log"
+	file := LogBasePath + "/" + time.Now().String()[0:10] + ".log"
 	logFile, err := os.OpenFile(file, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0766)
 	if nil != err {
 		panic(err)
